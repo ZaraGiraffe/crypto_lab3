@@ -1,9 +1,9 @@
 import requests
 import time
 from .settings import SERVER
-from .extern.aes.aes import encrypt, decrypt
+from .aes import encrypt, decrypt
 import json
-
+import hashlib
 
 def send_message(from_name, to_name, message, hash_data):
     timestamp = time.time()
@@ -13,7 +13,7 @@ def send_message(from_name, to_name, message, hash_data):
         "to": to_name,
         "timestamp": timestamp,
         "message": message,
-        "hash": hash_data
+        "hash": hashlib.sha256(message).hexdigest()
     }
     headers = {"Content-Type": "application/json"}
 
